@@ -1,0 +1,17 @@
+two angles of approach
+problem 1: fourier decomposition of input data
+  consider: detrend with linear fit of boundary conditions
+  numerical integral of fourier series
+  compare with original data
+  plot power spectrum
+
+problem 2: analytic evolution of generic heat line
+  Solve 1-D heat diffusion
+  make contour plot (or animation?) of 1-D heat diffusion
+  determine evolution of distinct wavelengths
+  section 9.7 in arfken pdf page 445
+  http://tutorial.math.lamar.edu/Classes/DE/HeatEqnNonZero.aspx
+
+problem 3: numerical evolution of input data and comparison
+  Execute a dufort frankel evolution
+  make use of the time data and analytic solution to judge fitness of simulation
