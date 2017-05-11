@@ -11,11 +11,11 @@ class TestTools(unittest.TestCase):
         true_k3 = 5.0
         true_k7 = 0.2
         y_vals = true_k3*numpy.sin(3*pi*x_vals)+true_k7*numpy.sin(7*pi*x_vals)
-        k3 = tools.fourier_coefficient(3, y_vals)
-        k7 = tools.fourier_coefficient(7, y_vals)
-
-        self.assertLess(abs(true_k3-k3),(10**-6))
-        self.assertLess(abs(true_k7-k7),(10**-6))
+        k3 = tools.fourier_coefficient(3, y_vals, x_vals)
+        k7 = tools.fourier_coefficient(7, y_vals, x_vals)
+        print(k3, k7)
+        self.assertLess(abs(true_k3-k3),(10**-4))
+        self.assertLess(abs(true_k7-k7),(10**-4))
         return
 
     def test_du_fort_frankel(self):
@@ -33,5 +33,5 @@ class TestTools(unittest.TestCase):
                 )
             previous_y_vals = y_vals
             y_vals = next_y_vals
-        self.assertLess(abs(next_y_vals[3]-3.0),10**-6)
+        self.assertLess(abs(next_y_vals[3]-3.0),10**-4)
         return
