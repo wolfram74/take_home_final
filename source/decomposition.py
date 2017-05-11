@@ -13,7 +13,7 @@ def main():
     transient_temperatures = temperature_vals-stable_temperature
     fourier_coefficients = []
     normalized_error =[]
-    for i in range(1,101):
+    for i in range(1,51):
         fourier_coefficients.append(tools.fourier_coefficient(i, transient_temperatures, x_vals))
     model = tools.recompose(fourier_coefficients, x_vals)
     residues = transient_temperatures-model

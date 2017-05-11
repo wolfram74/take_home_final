@@ -1,4 +1,5 @@
 import numpy
+from functools import reduce
 
 def fourier_coefficient(k_val, y_vals, x_vals):
     # basis = numpy.exp(numpy.i*k_val*2*numpy.pi*x_vals)
@@ -13,8 +14,13 @@ def fourier_coefficient(k_val, y_vals, x_vals):
 def recompose(coefficients, x_vals):
     model = numpy.zeros(len(x_vals))
     # indices = numpy.arange(0, len(x_vals))
-    for index in range(len(coefficients)):
-        model += coefficients[index]*numpy.sin(numpy.pi*(index+1)*x_vals)
+    indices = numpy.arange(1, len(coefficients)+1)
+    model = reduce((lambda total, ind: (
+        total + coefficients[ind-1]*numpy.sin(numpy.pi*(ind)*x_vals)
+        )
+    ), indices)
+    # for index in range(len(coefficients)):
+    #     model += coefficients[index]*numpy.sin(numpy.pi*(index+1)*x_vals)
     return model
 
 
