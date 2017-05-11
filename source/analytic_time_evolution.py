@@ -22,7 +22,8 @@ def main():
     indices = numpy.arange(1, params['modes']+1)
     for i in range(1,params['modes']+1):
         fourier_coefficients.append(tools.fourier_coefficient(i, transient_temperatures, x_vals))
-    print(len(indices), len(fourier_coefficients))
+    decay_rates = numpy.exp(-numpy.pi**2*indices**2*params['kappa']*del_t)
+    print(indices[0:5], decay_rates[0:5])
     return
 
 if __name__ == "__main__":
