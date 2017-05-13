@@ -6,7 +6,7 @@ import time
 params = {
     'kappa': 1.0,
     'steps': 10000,
-    'foldings': 1.0,
+    'foldings': 0.02,
     'modes':100
 }
 
@@ -25,21 +25,18 @@ def main():
         fourier_coefficients.append(tools.fourier_coefficient(i, transient_temperatures, x_vals))
     fourier_coefficients = numpy.array(fourier_coefficients)
     decay_rates = numpy.exp(-numpy.pi**2*indices**2*params['kappa']*del_t)
-    print(indices[0:5], decay_rates[0:5])
-    evolution = numpy.array([tools.recompose(fourier_coefficients, x_vals)])
-    print(evolution[0][0], transient_temperatures[0])
-    print(fourier_coefficients[0:5])
-    times = numpy.array([0])
-    print(params['steps']/100)
 
-    fig = pyplot.plot(x_vals, evolution[-1])
-    axes = pyplot.gca()
-    axes.set_ylim([-40,30])
-    pyplot.savefig('step_%05d.png' % 0)
-    pyplot.clf()
+    evolution = numpy.array([tools.recompose(fourier_coefficients, x_vals)])
+    times = numpy.array([0])
+
+    # fig = pyplot.plot(x_vals, evolution[-1])
+    # axes = pyplot.gca()
+    # axes.set_ylim([-40,30])
+    # pyplot.savefig('step_%05d.png' % 0)
+    # pyplot.clf()
 
     start = time.time()
-    for i in range(1, 10001):
+    for i in range(1, params['steps']+1):
         fourier_coefficients *= decay_rates
         if i%100==0:
             evolution = numpy.append(evolution, [tools.recompose(fourier_coefficients, x_vals)], axis=0)
@@ -52,15 +49,14 @@ def main():
 
     end = time.time()
     print(end-start)
-    print(fourier_coefficients[0:5])
 
     mesh_x, mesh_y = numpy.meshgrid(x_vals, times)
-    print(evolution.shape, mesh_x.shape)
     pyplot.figure()
     contour = pyplot.contour(mesh_x, mesh_y, evolution)
     pyplot.clabel(contour, inline=1, fontize=10)
-    pyplot.title('heat evolution')
-    pyplot.show()
+    pyplot.title('heat evolution till %0.3f e-foldings' % params['foldings'])
+    pyplot.savefig('analytic_contour.png' )
+    pyplot.clf()
     return
 
 if __name__ == "__main__":
