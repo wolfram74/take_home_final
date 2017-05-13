@@ -16,15 +16,13 @@ def main():
         )
     x_vals, temperature_vals = tools.data_loader( scale=1)
     print('del_t %f' % del_t )
-    print(params['kappa'], del_t, (x_vals[1]**2))
-    print(params['kappa']*del_t/(x_vals[1]**2))
     print('scale %f' % (params['kappa']*del_t/(x_vals[1]**2)))
     temperature_left = temperature_vals[0]
     stable_gradient = (temperature_vals[-1]-temperature_vals[0])/x_vals[-1]
     stable_temperature = temperature_left + stable_gradient*x_vals
 
     transient_temperatures = temperature_vals-stable_temperature
-    # transient_temperatures = temperature_vals#-stable_temperature
+
     time_slices = [transient_temperatures, transient_temperatures]
     start = time.time()
     record = open(
@@ -38,10 +36,10 @@ def main():
             time_slices[1],time_slices[0],
             params['kappa'], del_t, x_vals[1]
             ))
-        time_slices.pop(0)
+        time_slices.pop(0) # get rid of old state
         if time_i % 500 == 0:
             components = tools.spectrum(time_slices[0], x_vals, 100)
-            record.write("%f:%s\n" % (time_i*del_t, ','.join(map(str, components))) )
+            record.write("%f:%s\n" % (time_i*del_t, ','.join(map(str, components))) ) # save spectral data to file
             print(time_i)
             # fig = pyplot.plot(x_vals, time_slices[0])
             # axes = pyplot.gca()
