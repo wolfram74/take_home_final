@@ -2,14 +2,14 @@ import numpy
 from functools import reduce
 
 def fourier_coefficient(k_val, y_vals, x_vals):
-    # basis = numpy.exp(numpy.i*k_val*2*numpy.pi*x_vals)
     del_x = x_vals[1]
     indices = numpy.arange(0, len(x_vals))
+    #result of integrating over narrow band discussed in section 2
     basis = (
         numpy.cos(k_val*numpy.pi*indices*del_x)
         -numpy.cos(k_val*numpy.pi*(indices+1)*del_x)
         )/(k_val*numpy.pi)
-    return 2*numpy.dot(basis, y_vals)#/(len(x_vals)**0.5)
+    return 2*numpy.dot(basis, y_vals)
 
 def spectrum(y_vals, x_vals, order):
     coefficients = []
@@ -20,12 +20,8 @@ def spectrum(y_vals, x_vals, order):
 def recompose(coefficients, x_vals):
     model = numpy.zeros(len(x_vals))
     indices = numpy.arange(0, len(x_vals))
-    # indices = numpy.arange(1, len(coefficients)+1)
-    # model = reduce((lambda total, ind: (
-    #     total + coefficients[ind-1]*numpy.sin(numpy.pi*(ind)*x_vals)
-    #     )
-    # ), indices)
     for index in range(len(coefficients)):
+        #index+1 because python is 0 indexed
         model += coefficients[index]*numpy.sin(numpy.pi*(index+1)*x_vals)
     return model
 
